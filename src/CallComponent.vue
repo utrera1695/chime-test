@@ -1,6 +1,18 @@
 <template>
-  <div id="app">
-    <call-component></call-component>
+  <div>
+    <div id="meeting-participants">
+      <div id="local-participant" class="video-container">
+        <video
+          id="my-video-element"
+          class="video-element"
+          autoplay
+          width="220"
+          height="118"
+          :poster="localVideoPoster"
+        ></video>
+        <span id="local-attendee-title" class="title-attendee" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -8,14 +20,11 @@
 import { mixins } from "vue-class-component";
 import { Component, Vue } from "vue-property-decorator";
 import ChimeComponent from "./mixins/chime";
-import CallComponent from "./CallComponent.vue";
 
 @Component({
-  components: {
-    CallComponent,
-  },
+  name: "call-component",
 })
-export default class App extends mixins(ChimeComponent) {
+export default class CallComponent extends mixins(ChimeComponent) {
   localVideoPoster = require("@/assets/poster.webp");
   mounted() {
     this.onCameraOrSoundDisabled();
@@ -24,7 +33,7 @@ export default class App extends mixins(ChimeComponent) {
   connect() {
     this.$store.dispatch("joinMeetingAction", {
       callback: () => {
-        //do nothing
+        //this.createMeeting()
       },
     });
   }
